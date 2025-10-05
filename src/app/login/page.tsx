@@ -38,45 +38,45 @@ export default function LoginPage() {
       localStorage.setItem('user', JSON.stringify(adminUser));
       router.push("/dashboard");
     } else {
-        toast({
-            variant: "destructive",
-            title: "Login Failed",
-            description: "Invalid credentials. Please try again.",
-        })
+      toast({
+        variant: "destructive",
+        title: "Login Failed",
+        description: "Invalid credentials. Please try again.",
+      })
     }
   };
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center p-4">
-       {loginBg && (
+    <div className="relative flex min-h-screen items-center justify-center bg-foreground p-4">
+      {loginBg && (
         <Image
-            src={loginBg.imageUrl}
-            alt="Abstract background"
-            data-ai-hint={loginBg.imageHint}
-            fill
-            className="object-cover"
+          src={loginBg.imageUrl}
+          alt="Abstract background"
+          data-ai-hint={loginBg.imageHint}
+          fill
+          className="object-cover"
         />
-       )}
+      )}
       <Card className="relative w-full max-w-sm bg-card/80 backdrop-blur-sm border-white/20 text-white">
         <CardHeader className="text-center">
-            <div className="flex justify-center items-center mb-4">
-                 <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    className="h-10 w-10 text-primary"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                >
-                    <path d="M2 12h20" />
-                    <path d="M12 2a10 10 0 0 1 10 10" />
-                    <path d="M12 22A10 10 0 0 0 22 12" />
-                    <path d="M12 2a10 10 0 0 0-10 10" />
-                    <path d="M12 22a10 10 0 0 1-10-12" />
-                </svg>
-            </div>
+          <div className="flex justify-center items-center mb-4">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              className="h-10 w-10 text-primary"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M2 12h20" />
+              <path d="M12 2a10 10 0 0 1 10 10" />
+              <path d="M12 22A10 10 0 0 0 22 12" />
+              <path d="M12 2a10 10 0 0 0-10 10" />
+              <path d="M12 22a10 10 0 0 1-10-12" />
+            </svg>
+          </div>
           <CardTitle className="text-2xl font-headline">NetOps Central</CardTitle>
           <CardDescription className="text-white/70">
             Enter your credentials to access your account
@@ -99,14 +99,14 @@ export default function LoginPage() {
             <div className="grid gap-2">
               <Label htmlFor="password" className="text-white/90">Password</Label>
               <div className="relative">
-                <Input 
-                  id="password" 
-                  type={showPassword ? "text" : "password"} 
-                  required value={password} 
-                  onChange={(e) => setPassword(e.target.value)} 
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  required value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="bg-white/10 border-white/20 text-white pr-10"
                 />
-                <Button 
+                <Button
                   type="button"
                   variant="ghost"
                   size="icon"
