@@ -1,0 +1,167 @@
+
+"use client"
+
+import * as React from "react"
+import {
+  ColumnDef,
+  ColumnFiltersState,
+  SortingState,
+  VisibilityState,
+  flexRender,
+  getCoreRowModel,
+  getFacetedRowModel,
+  getFacetedUniqueValues,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+  Row,
+} from "@tanstack/react-table"
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+
+import { DataTablePagination } from "./data-table-pagination"
+import { DataTableToolbar } from "./data-table-toolbar"
+import { useIsMobile } from "@/hooks/use-mobile"
+
+interface DataTableProps<TData, TValue> {
+  columns: ColumnDef<TData, TValue>[]
+  data: TData[]
+  searchColumn: string
+  searchPlaceholder: string
+  facetedFilterColumns?: {
+      column: string
+      title: string
+      options: {
+          label: string
+          value: string
+          icon?: React.ComponentType<{ className?: string }>
+      }[]
+  }[]
+  renderCard?: (row: Row<TData>) => React.ReactNode;
+}
+
+export function DataTable<TData, TValue>({
+  columns,
+  data,
+  searchColumn,
+  searchPlaceholder,
+  facetedFilterColumns,
+  renderCard,
+}: DataTableProps<TData, TValue>) {
+  const [rowSelection, setRowSelection] = React.useState({})
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({
+      select: false,
+    })
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  )
+  const [sorting, setSorting] = React.useState<SortingState>([])
+  const isMobile = useIsMobile();
+
+  const table = useReactTable({
+    data,
+    columns,
+    state: {
+      sorting,
+      columnVisibility,
+      rowSelection,
+      columnFilters,
+    },
+    enableRowSelection: true,
+    onRowSelectionChange: setRowSelection,
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    onColumnVisibilityChange: setColumnVisibility,
+    getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFacetedRowModel: getFacetedRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues(),
+  })
+
+  return (
+    <div className="space-y-4">
+      <DataTableToolbar 
+        table={table} 
+        searchColumn={searchColumn}
+        searchPlaceholder={searchPlaceholder}
+        facetedFilterColumns={facetedFilterColumns}
+       />
+       {isMobile && renderCard ? (
+          <div className="grid gap-4 md:hidden">
+              {table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <React.Fragment key={row.id}>
+                    {renderCard(row)}
+                  </React.Fragment>
+                ))
+              ) : (
+                <div className="text-center py-10">No results.</div>
+              )}
+          </div>
+       ) : (
+        <div className="rounded-md border hidden md:block">
+            <Table>
+            <TableHeader>
+                {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => {
+                    return (
+                        <TableHead key={header.id} colSpan={header.colSpan}>
+                        {header.isPlaceholder
+                            ? null
+                            : flexRender(
+                                header.column.columnDef.header,
+                                header.getContext()
+                            )}
+                        </TableHead>
+                    )
+                    })}
+                </TableRow>
+                ))}
+            </TableHeader>
+            <TableBody>
+                {table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map((row) => (
+                    <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                    >
+                    {row.getVisibleCells().map((cell) => (
+                        <TableCell key={cell.id}>
+                        {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                        )}
+                        </TableCell>
+                    ))}
+                    </TableRow>
+                ))
+                ) : (
+                <TableRow>
+                    <TableCell
+                    colSpan={columns.length}
+                    className="h-24 text-center"
+                    >
+                    No results.
+                    </TableCell>
+                </TableRow>
+                )}
+            </TableBody>
+            </Table>
+        </div>
+       )}
+      <DataTablePagination table={table} />
+    </div>
+  )
+}
