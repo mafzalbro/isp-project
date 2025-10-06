@@ -39,7 +39,7 @@ export function TicketsChart({ data }: TicketsChartProps) {
         <CardDescription>New vs. Resolved - Last 7 Days</CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig} className="h-[250px] max-w-[75vw]">
+        <ChartContainer config={chartConfig} className="h-[250px] max-w-[75vw] sm:max-w-[28vw]">
           <BarChart accessibilityLayer data={data}>
             <XAxis
               dataKey="date"

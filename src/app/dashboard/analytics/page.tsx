@@ -43,7 +43,7 @@ export default function AnalyticsPage() {
             <CardDescription>Shows network traffic over the last 15 hours.</CardDescription>
           </CardHeader>
           <CardContent>
-            <ChartContainer config={bandwidthChartConfig} className="h-[300px] max-w-[75vw]">
+            <ChartContainer config={bandwidthChartConfig} className="h-[300px] max-w-[75vw] sm:w-full">
               <AreaChart
                 accessibilityLayer
                 data={mockBandwidthData}

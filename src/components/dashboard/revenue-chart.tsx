@@ -38,7 +38,7 @@ export function RevenueChart({ data }: RevenueChartProps) {
         <CardDescription>January - June 2024</CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig} className="h-[250px] max-w-[75vw]">
+        <ChartContainer config={chartConfig} className="h-[250px] max-w-[75vw] sm:max-w-[40vw] overflow-x-auto">
           <LineChart
             accessibilityLayer
             data={data}
