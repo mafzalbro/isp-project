@@ -10,7 +10,6 @@ import { TicketsChart } from "@/components/dashboard/tickets-chart";
 import type { User, Invoice } from "@/lib/types";
 import { mockRevenueData, mockTicketData } from "@/lib/mock-data";
 
-
 export default function DashboardPage() {
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [activeUsers, setActiveUsers] = useState(0);
@@ -33,7 +32,7 @@ export default function DashboardPage() {
         setActiveUsers(activeUserCount);
       }
     } catch (error) {
-        console.error("Failed to parse data from localStorage", error);
+      console.error("Failed to parse data from localStorage", error);
     }
   }, []);
 

@@ -27,18 +27,18 @@ const chartConfig = {
 };
 
 interface RevenueChartProps {
-    data: RevenueData[];
+  data: RevenueData[];
 }
 
 export function RevenueChart({ data }: RevenueChartProps) {
   return (
-    <Card>
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>Revenue Overview</CardTitle>
         <CardDescription>January - June 2024</CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig} className="h-[250px] w-full">
+        <ChartContainer config={chartConfig} className="h-[250px] max-w-[75vw]">
           <LineChart
             accessibilityLayer
             data={data}

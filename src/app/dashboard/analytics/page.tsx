@@ -25,11 +25,11 @@ const bandwidthChartConfig = {
   },
 };
 const userChartConfig = {
-    users: {
-      label: "New Users",
-      color: "hsl(var(--accent))",
-    },
-  };
+  users: {
+    label: "New Users",
+    color: "hsl(var(--accent))",
+  },
+};
 
 export default function AnalyticsPage() {
   return (
@@ -43,7 +43,7 @@ export default function AnalyticsPage() {
             <CardDescription>Shows network traffic over the last 15 hours.</CardDescription>
           </CardHeader>
           <CardContent>
-            <ChartContainer config={bandwidthChartConfig} className="h-[300px] w-full">
+            <ChartContainer config={bandwidthChartConfig} className="h-[300px] max-w-[75vw]">
               <AreaChart
                 accessibilityLayer
                 data={mockBandwidthData}
@@ -66,52 +66,52 @@ export default function AnalyticsPage() {
         </Card>
 
         <div className="grid md:grid-cols-2 gap-6">
-            <Card>
-                <CardHeader>
-                    <CardTitle>User Growth</CardTitle>
-                    <CardDescription>New user sign-ups over the last 6 months.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <ChartContainer config={userChartConfig} className="h-[250px] w-full">
-                        <BarChart accessibilityLayer data={mockUserGrowthData}>
-                            <XAxis dataKey="month" tickLine={false} axisLine={false} tickMargin={8} />
-                            <YAxis tickLine={false} axisLine={false} tickMargin={8} />
-                            <Tooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
-                            <Bar dataKey="users" fill="var(--color-users)" radius={8} />
-                        </BarChart>
-                    </ChartContainer>
-                </CardContent>
-            </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>User Growth</CardTitle>
+              <CardDescription>New user sign-ups over the last 6 months.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ChartContainer config={userChartConfig} className="h-[250px] max-w-[75vw]">
+                <BarChart accessibilityLayer data={mockUserGrowthData}>
+                  <XAxis dataKey="month" tickLine={false} axisLine={false} tickMargin={8} />
+                  <YAxis tickLine={false} axisLine={false} tickMargin={8} />
+                  <Tooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
+                  <Bar dataKey="users" fill="var(--color-users)" radius={8} />
+                </BarChart>
+              </ChartContainer>
+            </CardContent>
+          </Card>
 
-            <Card>
-                <CardHeader>
-                    <CardTitle>System Alerts</CardTitle>
-                    <CardDescription>Recent high-priority system notifications.</CardDescription>
-                </CardHeader>
-                <CardContent className="grid gap-4">
-                    <Alert>
-                        <Terminal className="h-4 w-4" />
-                        <AlertTitle>High CPU Usage</AlertTitle>
-                        <AlertDescription>
-                            Server `db-master-01` is at 92% CPU utilization.
-                        </AlertDescription>
-                    </Alert>
-                    <Alert variant="destructive">
-                        <Terminal className="h-4 w-4" />
-                        <AlertTitle>Service Down</AlertTitle>
-                        <AlertDescription>
-                            Authentication service is unresponsive.
-                        </AlertDescription>
-                    </Alert>
-                     <Alert>
-                        <Terminal className="h-4 w-4" />
-                        <AlertTitle>Latency Spike</AlertTitle>
-                        <AlertDescription>
-                           API gateway p99 latency is over 500ms.
-                        </AlertDescription>
-                    </Alert>
-                </CardContent>
-            </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>System Alerts</CardTitle>
+              <CardDescription>Recent high-priority system notifications.</CardDescription>
+            </CardHeader>
+            <CardContent className="grid gap-4">
+              <Alert>
+                <Terminal className="h-4 w-4" />
+                <AlertTitle>High CPU Usage</AlertTitle>
+                <AlertDescription>
+                  Server `db-master-01` is at 92% CPU utilization.
+                </AlertDescription>
+              </Alert>
+              <Alert variant="destructive">
+                <Terminal className="h-4 w-4" />
+                <AlertTitle>Service Down</AlertTitle>
+                <AlertDescription>
+                  Authentication service is unresponsive.
+                </AlertDescription>
+              </Alert>
+              <Alert>
+                <Terminal className="h-4 w-4" />
+                <AlertTitle>Latency Spike</AlertTitle>
+                <AlertDescription>
+                  API gateway p99 latency is over 500ms.
+                </AlertDescription>
+              </Alert>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </>
