@@ -3,7 +3,7 @@
 
 import Image from "next/image";
 import { Row } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { CalendarOffIcon, HomeIcon, LucideHome, MapIcon, MoreHorizontal, UserIcon } from "lucide-react";
 
 import type { User } from "@/lib/types";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -16,6 +16,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { formatDate } from "@/lib/format-date";
 
 interface UserCardProps {
   row: Row<User>;
@@ -27,20 +28,25 @@ interface UserCardProps {
 export function UserCard({ row, onEdit, onDelete, onView }: UserCardProps) {
   const user = row.original;
 
+  const date = formatDate(user.expirydate);
+  const promise_date = formatDate(user.promise_date);
+
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <div className="flex items-center gap-2">
-          <Image
-            src={user.avatar}
-            alt={user.name}
-            width={40}
-            height={40}
-            className="rounded-full"
-          />
+          <div className="relative mr-1">
+            <UserIcon className="h-8 w-8 rounded-full" />
+            {/* show dot for active or inactive */}
+            {user.customer_status === "active" ? (
+              <div className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full bg-green-500" />
+            ) : (
+              <div className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full bg-gray-500" />
+            )}
+          </div>
           <div>
-            <h3 className="font-semibold">{user.name}</h3>
-            <p className="text-sm text-muted-foreground">{user.email}</p>
+            <h3 className="font-semibold">{user.user_name}</h3>
+            <p className="text-sm text-muted-foreground">{user.userid}</p>
           </div>
         </div>
         <DropdownMenu>
@@ -64,13 +70,18 @@ export function UserCard({ row, onEdit, onDelete, onView }: UserCardProps) {
         </DropdownMenu>
       </CardHeader>
       <CardContent>
-        <div className="flex flex-wrap gap-2 text-sm">
-          <Badge variant="outline">{user.role}</Badge>
-          <Badge variant={user.status === 'Active' ? 'default' : 'secondary'}>
-            {user.status}
-          </Badge>
-          {user.agency && <Badge variant="secondary">Agency: {user.agency}</Badge>}
-          {user.package && <Badge variant="secondary">Package: {user.package}</Badge>}
+        <div className="flex gap-2 justify-between items-end text-sm">
+          <div className="flex flex-col gap-1">
+            <p className="text-xs text-muted-foreground flex"><CalendarOffIcon className="mr-2 h-4 w-4" /> Expires {date}</p>
+            <p className="text-sm text-muted-foreground flex"><MapIcon className="mr-2 h-4 w-4" /> {user.address}</p>
+          </div>
+          <div className="flex flex-col gap-2 items-end">
+            {user.monthlyfees && <Badge variant="secondary">Fees: {user.monthlyfees}</Badge>}
+            {user.promise_date && <p className="text-xs mr-2">
+              {promise_date}
+            </p>
+            }
+          </div>
         </div>
       </CardContent>
     </Card>

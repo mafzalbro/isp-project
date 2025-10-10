@@ -14,13 +14,13 @@ interface DataTableToolbarProps<TData> {
   searchColumn: string
   searchPlaceholder: string
   facetedFilterColumns?: {
-      column: string
-      title: string
-      options: {
-          label: string
-          value: string
-          icon?: React.ComponentType<{ className?: string }>
-      }[]
+    column: string
+    title: string
+    options: {
+      label: string
+      value: string
+      icon?: React.ComponentType<{ className?: string }>
+    }[]
   }[]
 }
 
@@ -44,12 +44,12 @@ export function DataTableToolbar<TData>({
           className="h-8 w-[150px] lg:w-[250px]"
         />
         {facetedFilterColumns.map(filter => table.getColumn(filter.column) && (
-            <DataTableFacetedFilter
-                key={filter.column}
-                column={table.getColumn(filter.column)}
-                title={filter.title}
-                options={filter.options}
-            />
+          <DataTableFacetedFilter
+            key={filter.column}
+            column={table.getColumn(filter.column)}
+            title={filter.title}
+            options={filter.options}
+          />
         ))}
         {isFiltered && (
           <Button

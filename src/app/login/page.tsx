@@ -31,6 +31,7 @@ export default function LoginPage() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
+    const mockUsers = [{ id: 'usr_3', name: 'Admin User', email: 'admin@netops.com', role: 'Super Admin', status: 'Active', avatar: 'https://i.pravatar.cc/40?u=usr_3' }];
     // In a real app, you'd validate credentials. Here, we'll just log the admin user in.
     const adminUser = mockUsers.find(u => u.role === 'Super Admin');
 

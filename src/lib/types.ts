@@ -1,14 +1,16 @@
-export type UserRole = 'Super Admin' | 'Agency Admin' | 'Support' | 'Read-Only';
+export type UserRole = "Super Admin" | "Agency Admin" | "Support" | "Read-Only";
 
 export type User = {
-  id: string;
-  name: string;
-  email: string;
-  role: UserRole;
-  agency?: string;
-  package?: string;
-  status: 'Active' | 'Inactive' | 'Pending';
-  avatar: string;
+  id: number;
+  customer_status: string;
+  isp: string;
+  customer_type: string;
+  userid: string;
+  user_name: string;
+  address: string;
+  expirydate: string;
+  promise_date: string;
+  monthlyfees: string;
 };
 
 export type Package = {
@@ -25,7 +27,7 @@ export type Agency = {
   name: string;
   admin: string;
   usersCount: number;
-  status: 'Active' | 'Inactive';
+  status: "Active" | "Inactive";
 };
 
 export type Invoice = {
@@ -34,7 +36,7 @@ export type Invoice = {
   userName: string;
   userEmail: string;
   amount: number;
-  status: 'Paid' | 'Due' | 'Overdue';
+  status: "Paid" | "Due" | "Overdue";
   dueDate: string;
   issuedDate: string;
 };

@@ -19,7 +19,7 @@ const CustomCursor = () => {
   const [isVisible, setIsVisible] = useState(true);
 
   const cursorSize = isHovering ? 60 : 20;
-  
+
   const mouse = {
     x: useMotionValue(0),
     y: useMotionValue(0),
@@ -45,7 +45,7 @@ const CustomCursor = () => {
     };
 
     window.addEventListener('mousemove', manageMouseMove);
-    
+
     // Set initial timeout
     timeout = setTimeout(() => setIsVisible(false), 4000);
 
@@ -84,12 +84,12 @@ const CustomCursor = () => {
         }}
         className="fixed pointer-events-none z-[9999] rounded-full bg-primary/50 border-2 border-primary"
         animate={{
-            width: cursorSize,
-            height: cursorSize,
-            opacity: isVisible ? 1 : 0,
+          width: cursorSize,
+          height: cursorSize,
+          opacity: isVisible ? 1 : 0,
         }}
         transition={{
-            opacity: { duration: 0.3 }
+          opacity: { duration: 0.3 }
         }}
       />
     </div>

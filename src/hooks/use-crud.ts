@@ -11,7 +11,7 @@ type CrudConfig<T> = {
   initialFormData: Omit<T, "id">;
 };
 
-export function useCrud<T extends { id: string; name: string }>({
+export function useCrud<T extends { id: any; name: string }>({
   storageKey,
   mockData,
   entityName,
