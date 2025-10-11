@@ -46,6 +46,7 @@ const formConfig: FormFieldConfig[] = [
   { id: 'expirydate', label: 'Expiry Date', type: 'date', placeholder: '', }, // Date type field
   { id: 'promise_date', label: 'Promise Date', type: 'date', placeholder: '', }, // Date type field
   { id: 'monthlyfees', label: 'Monthly Fees', type: 'number', placeholder: '', }, // Number type field
+  { id: 'balance_due', label: 'Balance Due', type: 'number', placeholder: '', },
 ];
 
 export default function UsersPage() {
