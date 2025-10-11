@@ -64,7 +64,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen">
       <div className="relative">
         <SidebarProvider>
-          <Sidebar variant="sidebar" collapsible="icon" className="border-r bg-sidebar backdrop-blur-sm">
+          <Sidebar variant="sidebar" collapsible="icon" className="border-r bg-transparent backdrop-blur-sm">
             <AppSidebar />
           </Sidebar>
           <SidebarInset className="bg-transparent">

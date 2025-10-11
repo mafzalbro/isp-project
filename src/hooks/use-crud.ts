@@ -11,7 +11,7 @@ type CrudConfig<T> = {
   initialFormData: Omit<T, "id">;
 };
 
-export function useCrud<T extends { id: any; name: string }>({
+export function useCrud<T extends { id: any; name?: string }>({
   storageKey,
   mockData,
   entityName,
@@ -104,7 +104,7 @@ export function useCrud<T extends { id: any; name: string }>({
       );
       toast({
         title: `${entityName} Updated`,
-        description: `${(formData as any).name} has been updated.`,
+        description: `${(formData as any).id} has been updated.`,
       });
     } else {
       const newItem = {
@@ -114,7 +114,7 @@ export function useCrud<T extends { id: any; name: string }>({
       updatedData = [...data, newItem];
       toast({
         title: `${entityName} Added`,
-        description: `${(newItem as any).name} has been added.`,
+        description: `${(newItem as any).id} has been added.`,
       });
     }
 
@@ -157,7 +157,7 @@ export function useCrud<T extends { id: any; name: string }>({
     updateLocalStorage(updatedData);
     toast({
       title: `${entityName} Deleted`,
-      description: `${itemToDelete.name} has been deleted.`,
+      description: `${itemToDelete.id} has been deleted.`,
     });
     setIsAlertDialogOpen(false);
     setItemToDelete(null);

@@ -50,7 +50,7 @@ export default function SignupPage() {
           className="object-cover"
         />
       )}
-      <Card className="relative w-full max-w-sm bg-card/80 backdrop-blur-sm border-white/20 text-white">
+      <Card className="relative w-full max-w-sm bg-card/50 backdrop-blur-2xl rounded-3xl border-white/10 text-white">
         <CardHeader className="text-center">
           <div className="flex justify-center items-center mb-4">
             <svg

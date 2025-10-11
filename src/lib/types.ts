@@ -5,12 +5,13 @@ export type User = {
   customer_status: string;
   isp: string;
   customer_type: string;
-  userid: string;
-  user_name: string;
+  username: string;
+  full_name: string;
   address: string;
   expirydate: string;
   promise_date: string;
   monthlyfees: string;
+  balance_due: string;
 };
 
 export type Package = {

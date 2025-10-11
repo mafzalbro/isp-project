@@ -17,3 +17,9 @@ export function formatTime(dateString: string) {
     hour12: true,
   });
 }
+
+export function formatPromiseDate(date: string): string {
+  const promiseDate = new Date(date);
+  const options = { day: "2-digit", month: "short" };
+  return promiseDate.toLocaleDateString("en-GB", options as any); // Formats as "10 Oct"
+}

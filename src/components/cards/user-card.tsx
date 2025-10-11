@@ -1,22 +1,11 @@
-
 "use client";
 
-import Image from "next/image";
 import { Row } from "@tanstack/react-table";
-import { CalendarOffIcon, HomeIcon, LucideHome, MapIcon, MoreHorizontal, UserIcon } from "lucide-react";
-
-import type { User } from "@/lib/types";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { CalendarCheck2, CalendarOffIcon, LucideHouse, MapIcon, UserIcon } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { formatDate } from "@/lib/format-date";
+import { formatDate, formatPromiseDate } from "@/lib/format-date";
+import { User } from "@/lib/types";
 
 interface UserCardProps {
   row: Row<User>;
@@ -29,59 +18,51 @@ export function UserCard({ row, onEdit, onDelete, onView }: UserCardProps) {
   const user = row.original;
 
   const date = formatDate(user.expirydate);
-  const promise_date = formatDate(user.promise_date);
+  const promiseDate = formatPromiseDate(user.promise_date); // Format Promise Date
 
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <div className="flex items-center gap-2">
-          <div className="relative mr-1">
-            <UserIcon className="h-8 w-8 rounded-full" />
-            {/* show dot for active or inactive */}
-            {user.customer_status === "active" ? (
-              <div className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full bg-green-500" />
-            ) : (
-              <div className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full bg-gray-500" />
-            )}
+    <Card className="shadow-sm hover:shadow-lg transition-all">
+      <CardContent className="p-4 flex gap-4">
+        <div className="relative my-auto">
+          <UserIcon className="h-8 w-8 text-gray-500" />
+          {/* Active/Inactive Dot */}
+          {user.customer_status === "active" ? (
+            <div className="absolute bottom-0 right-0 h-2 w-2 rounded-full bg-green-500" />
+          ) : (
+            <div className="absolute bottom-0 right-0 h-2 w-2 rounded-full bg-gray-500" />
+          )}
+        </div>
+        <div className="flex flex-col gap-1 flex-grow">
+          <div className="flex items-center gap-2">
+
+            <div>
+              <h3 className="font-semibold text-md">{user.full_name}</h3>
+              <p className="text-xs text-muted-foreground">{user.username}</p>
+            </div>
           </div>
-          <div>
-            <h3 className="font-semibold">{user.user_name}</h3>
-            <p className="text-sm text-muted-foreground">{user.userid}</p>
+
+          {/* Expiry and Address */}
+          <div className="flex flex-col text-[10px] text-muted-foreground gap-1">
+            <p className="flex items-center gap-1">
+              <CalendarCheck2 className="h-3 w-3 text-muted-foreground" />
+              Expires {date}
+            </p>
+            <p className="flex items-center gap-1">
+              <LucideHouse className="h-3 w-3 text-muted-foreground" />
+              {user.address}
+            </p>
           </div>
         </div>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => onEdit(user)}>Edit</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => onView(user)}>View Details</DropdownMenuItem>
-            <DropdownMenuItem
-              className="text-destructive"
-              onClick={() => onDelete(user)}
-            >
-              Delete
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </CardHeader>
-      <CardContent>
-        <div className="flex gap-2 justify-between items-end text-sm">
-          <div className="flex flex-col gap-1">
-            <p className="text-xs text-muted-foreground flex"><CalendarOffIcon className="mr-2 h-4 w-4" /> Expires {date}</p>
-            <p className="text-sm text-muted-foreground flex"><MapIcon className="mr-2 h-4 w-4" /> {user.address}</p>
-          </div>
-          <div className="flex flex-col gap-2 items-end">
-            {user.monthlyfees && <Badge variant="secondary">Fees: {user.monthlyfees}</Badge>}
-            {user.promise_date && <p className="text-xs mr-2">
-              {promise_date}
+
+        {/* Fees, Promise Date, Balance Due */}
+        <div className="flex flex-col items-end gap-1">
+          {user.monthlyfees && <p className="px-2 py-1 text-xs">{`Fees ${user.monthlyfees}`}</p>}
+          {user.promise_date && <p className="text-xs text-muted-foreground">{promiseDate} (PR)</p>}
+          {user.balance_due && user.balance_due !== "0.00" && (
+            <p className="text-xs font-semibold text-red-500">
+              {user.balance_due} (Due)
             </p>
-            }
-          </div>
+          )}
         </div>
       </CardContent>
     </Card>

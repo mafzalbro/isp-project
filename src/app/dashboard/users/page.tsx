@@ -68,19 +68,16 @@ export default function UsersPage() {
     handleEditClick,
     handleViewClick,
     handleDeleteClick,
-    confirmDelete,
-    setIsAlertDialogOpen,
-    setItemToDelete,
-  } = useCrud<User | any>({
+  } = useCrud<User>({
     storageKey: 'users',
     mockData: mockUsers,
     entityName: 'User',
     entityNamePlural: 'Users',
-    initialFormData: { user_name: '', name: "", address: "", customer_status: "", isp: "", customer_type: "", userid: "", expirydate: "", promise_date: "", monthlyfees: "" },
+    initialFormData: { full_name: "", balance_due: "", username: '', address: "", customer_status: "", isp: "", customer_type: "", expirydate: "", promise_date: "", monthlyfees: "" },
   });
 
   const filteredData = agencyFilter
-    ? data.filter(user => user.userid === agencyFilter)
+    ? data.filter(user => user.username === agencyFilter)
     : data;
 
   console.log(agencyFilter);
@@ -124,8 +121,8 @@ export default function UsersPage() {
             )}
           </div>
           <div>
-            <div className="font-medium">{row.original.user_name}</div>
-            <div className="font-normal text-muted-foreground">{row.original.userid}</div>
+            <div className="font-medium">{row.original.full_name}</div>
+            <div className="font-normal text-muted-foreground">{row.original.username}</div>
           </div>
         </div>
       )
@@ -133,10 +130,11 @@ export default function UsersPage() {
     {
       accessorKey: "agency",
       header: ({ column }) => <DataTableColumnHeader column={column} title="Agency" />,
-      cell: ({ row }) => row.original.isp || 'N/A'
+      cell: ({ row }) => row.original.isp || 'N/A',
+      enableSorting: false
     },
     {
-      accessorKey: "expiry date",
+      accessorKey: "expirydate",
       header: ({ column }) => <DataTableColumnHeader column={column} title="Expiry Date" />,
       cell: ({ row }) => {
         {
@@ -150,11 +148,12 @@ export default function UsersPage() {
           )
         }
       },
-      enableSorting: false
+      // enableSorting: false
+      sortingFn: 'datetime',
     },
     {
       accessorKey: "Customer Details",
-      header: ({ column }) => <DataTableColumnHeader column={column} title="Status" />,
+      header: ({ column }) => <DataTableColumnHeader column={column} title="Customer Details" />,
       cell: ({ row }) => {
         {
           const date = formatDate(row.original.expirydate);
@@ -172,36 +171,19 @@ export default function UsersPage() {
       filterFn: (row, id, value) => {
         return value.includes(row.getValue(id))
       },
+      enableSorting: false
     },
     {
-      accessorKey: "monthlyfees",
+      accessorKey: "monthly fees",
       header: ({ column }) => <DataTableColumnHeader column={column} title="Fees" />,
-      cell: ({ row }) => `Rs ${row.original.monthlyfees}/-` || 'N/A'
-    },
-    {
-      id: "actions",
-      cell: ({ row }) => {
-        const user = row.original
-
-        return (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem onClick={() => handleEditClick(user)}>Edit</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleViewClick(user)}>View Details</DropdownMenuItem>
-              <DropdownMenuItem className="text-destructive" onClick={() => handleDeleteClick(user)}>
-                Delete
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        )
-      },
+      cell: ({ row }) => <div>
+        {`Rs ${row.original.monthlyfees}/-` || 'N/A'}
+        {row.original.balance_due && row.original.balance_due !== "0.00" && (
+          <p className="text-xs font-semibold text-red-500">
+            {row.original.balance_due} (Due)
+          </p>
+        )}
+      </div>
     },
   ]
 
@@ -241,22 +223,6 @@ export default function UsersPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-
-      <AlertDialog open={isAlertDialogOpen} onOpenChange={setIsAlertDialogOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the user
-              "{itemToDelete?.user_name}".
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setItemToDelete(null)}>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmDelete}>Continue</AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
 
       <DataTable
         columns={columns}
